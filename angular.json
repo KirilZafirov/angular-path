@@ -58,6 +58,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "forceEsbuild": true
+          },
           "configurations": {
             "production": {
               "browserTarget": "angular-path:build:production"
