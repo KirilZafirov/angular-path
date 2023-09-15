@@ -1,0 +1,52 @@
+<form [formGroup]="dynamicForm" name="calculation" (ngSubmit)="onSubmit()">
+  <div class="card m-3">
+    <h5 class="card-header">Пример пресметка</h5>
+    <table class="table table-hover">
+      <thead>
+        <tr class="bg-info">
+          <th scope="col">
+            <input type="checkbox" [formControl]="checkAllControl" (change)="changeSelectionForAll( )" />
+          </th>
+          <th scope="col">Name</th>
+          <th scope="col">Project</th>
+          <th scope="col">LegalEntities</th>
+          <th scope="col">Work Items</th>
+          <th scope="col">Document Type</th>
+          <th scope="col">Document Status</th>
+          <th scope="col">Tax Year</th>
+          <th scope="col">Tax Period</th>
+          <th scope="col">Reference Id</th>
+          <th scope="col" class="btn-action"></th>
+        </tr>
+      </thead>
+      <tbody> 
+        <ng-container *ngFor="let item of items.controls; let i = index">
+          <app-form-row [formGroup]="item"></app-form-row>
+        </ng-container>
+        <app-form-row [formGroup]="vehicleType"></app-form-row>
+        <app-form-row [formGroup]="categoryType"></app-form-row>
+      </tbody>
+    </table>
+    <div class="card-footer text-center">
+      <button class="btn btn-success" type="button" (click)="addNewItem()">add
+      </button>
+      <button class="btn btn-warning" type="reset" (click)="onReset()">CLear</button>
+    </div>
+  </div>
+</form>
+
+
+
+
+
+
+<app-child [numbers]="testValues"></app-child>
+
+<button class="btn btn-success" type="button" (click)="increase()">add
+</button>
+{{ dynamicForm.value| json}}
+
+<!-- 
+All people in a single timesheet 
+See what person submitted a bad timesheet 
+Filtering on the timesheet so that they would see only one person -->

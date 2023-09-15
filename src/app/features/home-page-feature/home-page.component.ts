@@ -1,7 +1,9 @@
-import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, Validators, FormsModule, ReactiveFormsModule, UntypedFormGroup, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { JsonPipe, NgFor, NgIf } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ComponentFactoryResolver, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { FormBuilder, FormArray, Validators, FormsModule, ReactiveFormsModule, UntypedFormGroup, FormControl } from '@angular/forms';
+import { Subject, tap } from 'rxjs'; 
+import { ChildHomePageComponent } from './components/child.component';
+import { FormRowComponent } from './components/form-row.component';
 
 @Component({
   selector: 'app-home-page',
@@ -13,7 +15,11 @@ import { Subject } from 'rxjs';
     NgFor,
     FormsModule,
     ReactiveFormsModule,
-  ]
+    ChildHomePageComponent,
+    FormRowComponent,
+    JsonPipe
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomePageComponent {
 
@@ -57,17 +63,48 @@ export class HomePageComponent {
       referenceId: 'referenceId2',
     }
   ]
-  constructor(private formBuilder: FormBuilder) {
+
+  testValues = [1, 2];
+
+  @ViewChild(TemplateRef, { read: ViewContainerRef })
+  private templateViewContainerRef!: ViewContainerRef;
+  constructor(private formBuilder: FormBuilder, private readonly componentFactoryResolver: ComponentFactoryResolver) {
 
     const formControlData = this.files ?
       this.getNewFormArray(this.files) : new FormArray([this.getNewItemControl(null)]);
 
 
     this.dynamicForm = this.formBuilder.group({
-      items: formControlData
+      items: formControlData,
+      vehicleType:  this.getNewItemControl(null),
+      categoryType: this.getNewItemControl(null)
     });
+
+
   }
 
+
+  ngOnInit() {
+    const vehicleType = this.dynamicForm.get('vehicleType')?.valueChanges.pipe(
+      tap((value) => {
+        if(value) {
+          const control = this.dynamicForm.get('categoryType') as any;
+          control?.controls['name'].patchValue(value.name);
+        }
+      })
+    );
+    const categoryType = this.dynamicForm.get('categoryType')?.valueChanges.pipe();
+    const items = this.dynamicForm.get('items')?.valueChanges.pipe();
+
+
+  }
+  get vehicleType() { return this.formItems['vehicleType'] as any; }
+  get categoryType() { return this.formItems['categoryType'] as any; }
+
+  increase() {
+    this.testValues[0] = this.testValues[0] + 1;
+  };
+ 
   getNewFormArray(items: any) {
     return new FormArray(items.map((e: any) => this.getNewItemControl(e)))
   }
@@ -132,15 +169,13 @@ export class HomePageComponent {
 
     // display form values on success
     alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.dynamicForm.value, null, 4));
-  }
-
-
-
+  } 
   onReset() {
     // reset whole form back to initial state 
     this.dynamicForm.reset();
     this.items.clear();
-  }
-
+  } 
 
 }
+ 
+ 

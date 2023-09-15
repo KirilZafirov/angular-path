@@ -1,0 +1,35 @@
+<form *ngIf="formRowFormGroup" [formGroup]="formRowFormGroup">
+  <tr class="list-group list-group-flush" class="bg-primary">
+
+    <th scope="row">
+      <input type="checkbox" formControlName="checked" />
+    </th>
+    <td class="align-middle">
+      <input type="text" formControlName="name" placeholder="Name" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="project" placeholder="Project" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="legalEntity" placeholder="Legal Entities" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="workItems" appPatternFilter="^[\\+]?[0-9\s\\(\\)\\-]*$" placeholder="Work Items" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="documentType" placeholder="Document Type" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="documentStatus" placeholder="Document Status" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="taxYear" placeholder="Tax Year" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="taxPeriod" placeholder="Tax Period" class="form-control" />
+    </td>
+    <td class="align-middle">
+      <input type="text" formControlName="referenceId" placeholder="Reference Id" class="form-control" />
+    </td>
+  </tr>
+</form>

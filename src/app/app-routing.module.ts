@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadComponent: () => import('./features/home-page/home-page.component').then((m) => m.HomePageComponent),
+    loadComponent: () => import('./features/home-page-feature/home-page.component').then((m) => m.HomePageComponent),
   },
   {
     path: '**',
@@ -20,7 +20,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    enableTracing: true,
+    // enableTracing: true,
   })],
   exports: [RouterModule]
 })

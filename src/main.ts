@@ -7,9 +7,8 @@ import { AppRoutingModule } from './app/app-routing.module';
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, AppRoutingModule,),
-
     provideHttpClient(withInterceptorsFromDi()),
-    provideZoneChangeDetection({ eventCoalescing: true })
+    provideZoneChangeDetection({ eventCoalescing: true }),
   ]
 })
   .catch(err => console.error(err));
